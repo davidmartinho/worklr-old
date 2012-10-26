@@ -1,0 +1,84 @@
+package pt.ist.processpedia.domain;
+
+class Processpedia;
+
+class User {
+    String name;    
+    String email;
+    String password;
+}
+
+class Process {
+    String title;
+}
+
+class Request {
+    String subject;
+    DateTime creationTimestamp;
+    DateTime claimTimestamp;
+    DateTime responseTimestamp;
+}
+
+class Label {
+    String label;
+    DateTime creationTimestamp;
+}
+
+class Tag {
+    DateTime timestamp;
+}
+
+relation ProcesspediaHasUsers {
+    Processpedia playsRole processpedia { multiplicity 1..1; }
+    User playsRole user { multiplicity 0..*; }
+}
+
+relation ProcesspediaHasProcesses {
+    Processpedia playsRole processpedia { multiplicity 1..1; }
+    Process playsRole process { multiplicity 0..*; }
+}
+
+relation ProcesspediaHasLabels {
+    Processpedia playsRole processpedia { multiplicity 1..1; }
+    Label playsRole label { multiplicity 0..*; }
+}
+
+relation ProcessHasRequests {
+    Process playsRole process { multiplicity 1..1; }
+    Request playsRole request { multiplicity 0..*; }
+}
+
+relation ProcessHasInitiator {
+    Process playsRole initiatedProcess { multiplicity 0..*; }
+    User playsRole initiator { multiplicity 1..1; }
+}
+
+relation RequestHasInitiator {
+    Request playsRole initiatedRequest { multiplicity 0..*; }
+    User playsRole initiator { multiplicity 1..1; }
+}
+
+relation LabelHasAuthor {
+    Label playsRole authoredLabel { multiplicity 0..*; }
+    User playsRole author { multiplicity 1..1; }
+}
+
+relation TagHasLabel {
+    Tag playsRole tag { multiplicity 0..*; }
+    Label playsRole label { multiplicity 1..1; }
+}
+
+relation UsersMakeTags {
+    User playsRole author { multiplicity 1..1; }
+    Tag playsRole tag { multiplicity 0..*; }
+}
+
+relation RequestHasTags {
+    Request playsRole request { multiplicity 0..1; }
+    Tag playsRole tag { multiplicity 0..*; }
+}
+
+relation ProcessHasTags {
+    Process playsRole process { multiplicity 0..1; }
+    Tag playsRole tag { multiplicity 0..*; }
+}
