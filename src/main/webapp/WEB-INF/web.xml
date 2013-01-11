@@ -3,13 +3,13 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-    <display-name>Processpedia</display-name>
+    <display-name>Worklr</display-name>
     <servlet>
-        <servlet-name>processpedia-servlet</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <servlet-name>worklr-servlet</servlet-name>
+        <servlet-class>pt.ist.worklr.utils.Bootstrap</servlet-class>
         <init-param>
             <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>pt.ist.processpedia.resource</param-value>
+            <param-value>pt.ist.worklr</param-value>
         </init-param>
         <init-param>
             <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
@@ -18,18 +18,18 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>processpedia-servlet</servlet-name>
+        <servlet-name>worklr-servlet</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
     <filter>
         <filter-name>transaction-filter</filter-name>
-        <filter-class>pt.ist.processpedia.filter.TransactionFilter</filter-class>
+        <filter-class>pt.ist.worklr.filter.TransactionFilter</filter-class>
     </filter>
 
     <filter>
         <filter-name>authentication-filter</filter-name>
-        <filter-class>pt.ist.processpedia.filter.AuthenticationFilter</filter-class>
+        <filter-class>pt.ist.worklr.filter.AuthenticationFilter</filter-class>
     </filter>
 
     <filter-mapping>

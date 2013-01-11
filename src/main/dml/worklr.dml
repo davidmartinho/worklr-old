@@ -1,0 +1,280 @@
+package pt.ist.worklr.domain;
+
+enum pt.ist.worklr.domain.DataObjectType as DataObjectType;
+
+class Worklr;
+
+class AuthToken {
+	String token;
+	String ipAddress;
+	DateTime loginTimestamp;
+	DateTime logoutTimestamp;
+}
+
+class User {
+    String name;
+    String email;
+    String passwordHash;
+    String salt;
+    String avatarUrl;
+    boolean active;
+    String activationKey;
+}
+
+class Process {
+	DateTime creationTimestamp;
+}
+
+class Request {
+    DateTime creationTimestamp;
+    DateTime claimTimestamp;
+    DateTime responseTimestamp;
+}
+
+class DataObject {
+	DataObjectType type;
+	String value;
+	DateTime creationTimestamp;
+}
+
+class ProcessLabel {
+    String value;
+}
+
+class RequestLabel {
+	String value;
+}
+
+class DataObjectLabel {
+	String value;
+}
+
+class Queue {
+	String name;
+}
+
+class UserQueue extends Queue;
+class RoleQueue extends Queue;
+
+class Role {
+	String roleName;
+}
+
+// SOCIAL SOFTWARE
+
+class Commentary {
+	String text;
+	DateTime timestamp;
+}
+
+relation RequestMayHaveComentaries {
+	Request playsRole request { multiplicity 1..1; }
+	Commentary playsRole commentary { multiplicity 0..*; }
+}
+
+relation UsersAuthorCommentaries {
+	User playsRole author { multiplicity 1..1; }
+	Commentary playsRole authoredCommentary { multiplicity 0..*; }
+}
+
+// TEMPLATES
+
+class ProcessGoal;
+
+class ProcessTemplate {
+	DateTime creationTimestamp;
+}
+
+class RequestTemplate {
+	DateTime creationTimestamp;
+}
+
+relation ProcessGoalHasDataObjectLabels {
+	ProcessGoal playsRole processGoal { multiplicity 1..*; }
+	ProcessLabel playsRole processLabel { multiplicity 1..*; }
+}
+
+relation ProcessMayAttainProcessGoal {
+	ProcessGoal playsRole goal { multiplicity 0..1; }
+	Process playsRole process { multiplicity 0..*; }
+}
+
+relation ProcessTemplateHasProcessIntances {
+	ProcessTemplate playsRole template { multiplicity 0..1; }
+	Process playsRole process { multiplicity 1..*; }
+}
+
+relation RequestTemplateHasRequestInstances {
+	RequestTemplate playsRole template { multiplicity 0..1; }
+	Request playsRole request { multiplicity 0..*; }
+}
+
+relation ProcessTemaplateHasProcessGoal {
+	ProcessTemplate playsRole processTemplate { multiplicity 0..*; }
+	ProcessGoal playsRole processGoal { multiplicity 1..1; }
+}
+
+relation ProcessTemplateHasRequestTemplates {
+	ProcessTemplate playsRole processTemplate { multiplicity 0..*; }
+	RequestTemplate playsRole requestTemplate { multiplicity 0..*; }
+}
+
+relation RequestTemplateHasInputDataObjectLabels {
+	RequestTemplate playsRole requestTemplateInputContext { multiplicity 0..*; }
+	RequestLabel playsRole inputDataObjectLabel { multiplicity 0..*; }
+}
+
+relation RequestTemplateHasCreatedDataObjectLabels {
+	RequestTemplate playsRole requestTemplateCreationContext { multiplicity 0..1; }
+	RequestLabel playsRole createdDataObjectLabel { multiplicity 0..*; }
+}
+
+relation RequestTemplateHasResponseDataObjectLabels {
+	RequestTemplate playsRole requestTemplateResponseContext { multiplicity 0..*; }
+	RequestLabel playsRole responseDataObjectLabel { multiplicity 0..*; }
+}
+
+relation WorklrHasAuthTokens {
+	Worklr playsRole worklr { multiplicity 1..1; }
+	AuthToken playsRole authToken { multiplicity 0..*; }
+}
+
+relation WorklrHasActiveAuthTokens {
+	Worklr playsRole { multiplicity 0..1; }
+	AuthToken playsRole activeAuthToken { multiplicity 0..*; }
+}
+
+relation WorklrHasInactiveAuthTokens {
+	Worklr playsRole { multiplicity 0..1; }
+	AuthToken playsRole inactiveAuthToken { multiplicity 0..*; }
+}
+
+relation WorklrHasRoles {
+	Worklr playsRole worklr { multiplicity 1..1; }
+	Role playsRole role { multiplicity 0..*; }
+}
+
+relation WorklrHasQueues {
+	Worklr playsRole worklr { multiplicity 1..1; }
+	Queue playsRole queue { multiplicity 0..*; }
+}
+
+relation AuthTokenHasUser {
+	AuthToken playsRole fullAuthToken { multiplicity 0..*; }
+	User playsRole user { multiplicity 1..1; }
+}
+
+relation UserHasActiveAuthToken {
+	AuthToken playsRole activeAuthToken { multiplicity 0..1; }
+	User playsRole { multiplicity 0..1; }
+}
+
+relation UserHasInactiveAuthTokens {
+	AuthToken playsRole inactiveAuthToken { multiplicity 0..*; }
+	User playsRole { multiplicity 0..1; }
+}
+
+relation UserQueueHasUser {
+	UserQueue playsRole userQueue { multiplicity 1..1; }
+	User playsRole user { multiplicity 1..1; }
+}
+
+relation UserPlaysRoles {
+	User playsRole player { multiplicity 0..*; }
+	Role playsRole role { multiplicity 0..*; }
+}
+
+relation RoleQueueHasRole {
+	RoleQueue playsRole roleQueue { multiplicity 1..1; }
+	Role playsRole role { multiplicity 1..1; }
+}
+
+relation QueueHasPublishedRequests {
+	Queue playsRole queue { multiplicity 0..*; }
+	Request playsRole publishedRequest { multiplicity 0..*; }
+}
+
+relation WorklrHasUsers {
+    Worklr playsRole worklr { multiplicity 1..1; }
+    User playsRole user { multiplicity 0..*; }
+}
+
+relation WorklrHasProcesses {
+    Worklr playsRole worklr { multiplicity 1..1; }
+    Process playsRole process { multiplicity 0..*; }
+}
+
+relation WorklrHasProcessLabels {
+    Worklr playsRole worklr { multiplicity 1..1; }
+    ProcessLabel playsRole processLabel { multiplicity 0..*; }
+}
+
+relation ProcessHasRequests {
+    Process playsRole process { multiplicity 1..1; }
+    Request playsRole request { multiplicity 0..*; }
+}
+
+relation WorklrHasRequestLabels {
+    Worklr playsRole worklr { multiplicity 1..1; }
+    RequestLabel playsRole requestLabel { multiplicity 0..*; }
+}
+
+relation ProcessHasInitiator {
+    Process playsRole initiatedProcess { multiplicity 0..*; }
+    User playsRole initiator { multiplicity 1..1; }
+}
+
+relation RequestHasInitiator {
+    Request playsRole initiatedRequest { multiplicity 0..*; }
+    User playsRole initiator { multiplicity 1..1; }
+}
+
+relation RequestMayHaveExecutor {
+	Request playsRole executedRequest { multiplicity 0..*; }
+	User playsRole executor { multiplicity 0..1; }
+}
+
+relation ProcessHasTitleLabel {
+	Process playsRole process { multiplicity 0..*; }
+	ProcessLabel playsRole title { multiplicity 1..1; }
+}
+
+relation RequestHasSubjectLabel {
+	Request playsRole request { multiplicity 0..*; }
+	RequestLabel playsRole subject { multiplicity 1..1; }
+}
+
+relation DataObjectHasLabel {
+	DataObject playsRole dataObject { multiplicity 0..*; }
+	DataObjectLabel playsRole label { multiplicity 1..1; }	
+}
+
+relation DataObjectHasAuthor {
+	DataObject playsRole authoredDataObject { multiplicity 0..*; }
+	User playsRole author { multiplicity 1..1; }
+}
+
+relation WorklrHasDataObjectLabels {
+    Worklr playsRole worklr { multiplicity 1..1; }
+    DataObjectLabel playsRole dataObjectLabel { multiplicity 0..*; }
+}
+
+relation RequestMayHaveSubRequests {
+	Request playsRole parentRequest { multiplicity 0..1; }
+	Request playsRole subRequest { multiplicity 0..*; }
+}
+
+relation RequestMayHaveInputDataObjects {
+	Request playsRole requestInputContext { multiplicity 0..*; }
+	DataObject playsRole inputDataObject { multiplicity 0..*; }
+}
+
+relation RequestMayHaveCreatedDataObjects {
+	Request playsRole requestCreationContext { multiplicity 1..1; }
+	DataObject playsRole createdDataObject { multiplicity 0..*; }
+}
+
+relation RequestMayHaveResponseDataObjects {
+	Request playsRole requestResponseContext { multiplicity 0..*; }
+	DataObject playsRole responseDataObject { multiplicity 0..*; }
+}
