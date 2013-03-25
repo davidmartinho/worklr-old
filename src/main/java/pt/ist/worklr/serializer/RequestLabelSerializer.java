@@ -1,19 +1,19 @@
 package pt.ist.worklr.serializer;
 
-import java.lang.reflect.Type;
-
+import pt.ist.bennu.json.JsonBuilder;
+import pt.ist.bennu.json.JsonViewer;
 import pt.ist.worklr.domain.RequestLabel;
+import pt.ist.worklr.utils.DefaultJsonAdapter;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
-public class RequestLabelSerializer implements JsonSerializer<RequestLabel> {
+@DefaultJsonAdapter(RequestLabel.class)
+public class RequestLabelSerializer implements JsonViewer<RequestLabel> {
 
     @Override
-    public JsonElement serialize(RequestLabel requestLabel, Type type, JsonSerializationContext ctx) {
-	return new JsonPrimitive(requestLabel.getValue());
+    public JsonElement view(RequestLabel requestLabel, JsonBuilder ctx) {
+        return new JsonPrimitive(requestLabel.getValue());
     }
 
 }

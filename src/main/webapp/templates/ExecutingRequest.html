@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="row">
+        <div class="span12">
+            <ul class="pull-right">
+                <button id="forward-request" class="btn btn-small btn-inverse">
+                    <i class="icon-random icon-white"></i> {{#_i18n}}Forward Request{{/_i18n}}
+                </button>
+                <button id="create-sub-request" class="btn btn-small btn-info">
+                    <i class="icon-edit icon-white"></i> {{#_i18n}}Create Sub-Request{{/_i18n}}
+                </button>
+                <button id="respond-to-request" class="btn btn-small btn-success">
+                    <i class="icon-reply icon-white"></i> {{#_i18n}}Reply{{/_i18n}}
+                </button>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            <h3 style="margin-top: 0px">{{request.subject}}</h3>
+            {{#request.commentaries}}
+            <div class="media">
+                <a class="pull-left" href="#"> <img class="media-object img-polaroid" src="{{author.avatarUrl}}?s=48"></a>
+                <div class="media-body">
+                    <b>{{author.name}}</b>
+                    <i style="color: #AAA; padding-left: 13px; font-size: 10px" class="timestamp">{{timestamp}}</i>
+                    <p>
+                        {{text}}
+                    </p>
+                </div>
+            </div>
+            {{/request.commentaries}}
+            <div class="media">
+                <a class="pull-left" href="#"> <img class="media-object img-polaroid" src="{{executor.avatarUrl}}?s=48"></a>
+                <div class="media-body">
+                    <textarea rows="3" id="comment-{{request.id}}" style="resize: none" class="input-block-level" name="commentary" placeholder="{{#_i18n}}Insert your comment here{{/_i18n}}"></textarea>
+                    <button id="post-comment" data-request-id="{{request.id}}" class="btn btn-primary pull-right">
+                        {{#_i18n}}Comment{{/_i18n}}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <h3 style="margin-top: 0px">{{#_i18n}}Data Objects{{/_i18n}}</h3>
+            <div class="well">
+                {{#request.inputDataObjects}}
+                <span id="{{id}}" data-toggle="popover" data-placement="right" title="{{label}}" data-content="{{value}}" data-type="{{^isFile}}string{{/isFile}}{{#isFile}}file{{/isFile}}" class="label label-info data-object-label" draggable="true">{{label}}</span><br/>
+                {{/request.inputDataObjects}}
+                {{#request.createdDataObjects}}
+                <span id="{{id}}" data-toggle="tooltip" data-placement="right" title="{{label}}" data-content="{{value}}" data-type="{{^isFile}}string{{/isFile}}{{#isFile}}file{{/isFile}}" class="label label-inverse data-object-label" draggable="true">{{label}}</span><a class="pull-right edit-data-object" data-id={{id}} href='#edit-data-object'><i class='icon-pencil'></i></a> <br/>
+                {{/request.createdDataObjects}}
+            </div>
+            <button  id="{{request.id}}" class="btn btn-mini btn-inverse create-data-object">
+                {{#_i18n}}Add New Data Object{{/_i18n}}
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12">
+            <h4>{{#_i18n}}Pending Sub-Requests{{/_i18n}}</h4>
+            <ul class="nav nav-pills">
+                {{#request.pendingSubRequests}}
+                {{^cancelationTimestamp}}
+                <li>
+                    <a id="{{id}}" class="show-sub-request" href="#">{{#_abv}}subject{{/_abv}}</a>
+                </li>
+                {{/cancelationTimestamp}}
+                {{/request.pendingSubRequests}}
+            </ul>
+        </div>
+    </div>
+    <div id="sub-request-container" class="row">
+    </div>
+</div>

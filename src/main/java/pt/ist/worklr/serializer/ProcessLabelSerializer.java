@@ -1,19 +1,19 @@
 package pt.ist.worklr.serializer;
 
-import java.lang.reflect.Type;
-
+import pt.ist.bennu.json.JsonBuilder;
+import pt.ist.bennu.json.JsonViewer;
 import pt.ist.worklr.domain.ProcessLabel;
+import pt.ist.worklr.utils.DefaultJsonAdapter;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
-public class ProcessLabelSerializer implements JsonSerializer<ProcessLabel> {
+@DefaultJsonAdapter(ProcessLabel.class)
+public class ProcessLabelSerializer implements JsonViewer<ProcessLabel> {
 
     @Override
-    public JsonElement serialize(ProcessLabel label, Type type, JsonSerializationContext ctx) {
-	return new JsonPrimitive(label.getValue());
+    public JsonElement view(ProcessLabel label, JsonBuilder ctx) {
+        return new JsonPrimitive(label.getValue());
     }
 
 }

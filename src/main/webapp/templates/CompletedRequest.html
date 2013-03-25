@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="row">
+        <div class="span12">
+            <h3>{{subject}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            {{#commentaries}}
+            <div class="media">
+                <a class="pull-left" href="#"> <img class="media-object img-polaroid" src="{{author.avatarUrl}}?s=48"></a>
+                <div class="media-body">
+                    <b>{{author.name}}</b>
+                    <i style="color: #AAA; padding-left: 13px; font-size: 10px" class="timestamp">{{timestamp}}</i>
+                    <p>
+                        {{text}}
+                    </p>
+                </div>
+            </div>
+            {{/commentaries}}
+        </div>
+        <div class="span3">
+            <h3 style="margin-top: 0px">{{#_i18n}}Data Objects{{/_i18n}}</h3>
+            <div class="well">
+                {{#inputDataObjects}}
+                <span id="{{id}}" data-toggle="popover" data-placement="right" title="{{label}}" data-content="{{value}}" data-type="{{^isFile}}string{{/isFile}}{{#isFile}}file{{/isFile}}" class="label label-info data-object-label" draggable="true">{{label}}</span><br/>
+                {{/inputDataObjects}}
+                {{#responseDataObjects}}
+                <span id="{{id}}" data-toggle="popover" data-placement="right" title="{{label}}" data-content="{{value}}" data-type="{{^isFile}}string{{/isFile}}{{#isFile}}file{{/isFile}}" class="label label-inverse data-object-label" draggable="true">{{label}}</span><br/>
+                {{/responseDataObjects}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12">
+            <h4>{{#_i18n}}Sub-Requests{{/_i18n}}</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <ul class="nav nav-tabs" data-tabs="tabs">
+                {{#request.pendingSubRequests}}
+                <li>
+                    <a href="#tab-{{id}}" data-toggle="tab">{{#_abv}}subject{{/_abv}}</a>
+                </li>
+                {{/request.pendingSubRequests}}
+            </ul>
+            <div class="tab-content">
+                {{#request.pendingSubRequests}}
+                <div class="tab-pane fade in" id="tab-{{id}}">
+                    <h4>{{subject}}</h4>
+                    <div class="span8">
+                        {{#commentaries}}
+                        <div class="media">
+                            <a class="pull-left" href="#"> <img class="media-object img-polaroid" src="{{author.avatarUrl}}?s=48"></a>
+                            <div class="media-body">
+                                <b>{{author.name}}</b>
+                                <p>
+                                    {{text}}
+                                </p>
+                            </div>
+                        </div>
+                        {{/commentaries}}
+                    </div>
+                    <div class="span3">
+                        <h4>{{#_i18n}}Data Objects{{/_i18n}}</h4>
+                        {{#inputDataObjects}}
+                        <div class="dragstuff" draggable="true">
+                            <a class="data-label" href="#"><span id="{{id}}" data-type="{{^isFile}}string{{/isFile}}{{#isFile}}file{{/isFile}}" class="label label-info">{{label}}</span></a><br/>
+                        </div>
+                        {{/inputDataObjects}}
+                        {{#createdDataObjects}}
+                        <div class="dragstuff" draggable="true">
+                            <span id="{{id}} data-type="{{^isFile}}string{{/isFile}}{{#isFile}}file{{/isFile}}" class="label label-inverse">{{label}}</span><br/>
+                        </div>
+                        {{/createdDataObjects}}
+
+                    </div>
+                </div>
+                {{/request.pendingSubRequests}}
+            </div>
+
+        </div>
+    </div>
+</div>

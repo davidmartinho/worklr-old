@@ -1,17 +1,19 @@
 package pt.ist.worklr.serializer;
 
-import java.lang.reflect.Type;
-
 import org.joda.time.DateTime;
+
+import pt.ist.bennu.json.JsonBuilder;
+import pt.ist.bennu.json.JsonViewer;
+import pt.ist.worklr.utils.DefaultJsonAdapter;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
-public class DateTimeSerializer implements JsonSerializer<DateTime> {
+@DefaultJsonAdapter(DateTime.class)
+public class DateTimeSerializer implements JsonViewer<DateTime> {
 
-    public JsonElement serialize(DateTime dateTime, Type type, JsonSerializationContext ctx) {
-	return new JsonPrimitive(dateTime.toString());
+    @Override
+    public JsonElement view(DateTime dateTime, JsonBuilder ctx) {
+        return new JsonPrimitive(dateTime.toString());
     }
 }

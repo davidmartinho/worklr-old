@@ -1,24 +1,24 @@
 package pt.ist.worklr.serializer;
 
-import java.lang.reflect.Type;
-
+import pt.ist.bennu.json.JsonBuilder;
+import pt.ist.bennu.json.JsonViewer;
 import pt.ist.worklr.domain.Queue;
+import pt.ist.worklr.utils.DefaultJsonAdapter;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
-public class QueueSerializer implements JsonSerializer<Queue> {
+@DefaultJsonAdapter(Queue.class)
+public class QueueSerializer implements JsonViewer<Queue> {
+
+    public static final String ID = "id";
+    public static final String NAME = "name";
 
     @Override
-    public JsonElement serialize(Queue queue, Type type, JsonSerializationContext ctx) {
-	JsonObject jsonObject = new JsonObject();
-
-	jsonObject.addProperty("id", queue.getExternalId());
-	jsonObject.addProperty("name", queue.getName());
-
-	return jsonObject;
+    public JsonElement view(Queue queue, JsonBuilder ctx) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(ID, queue.getExternalId());
+        jsonObject.addProperty(NAME, queue.getName());
+        return jsonObject;
     }
-
 }

@@ -1,0 +1,43 @@
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="#"><strong>Worklr</strong></a>
+
+            <div class="nav-collapse collapse">
+                {{#admin}}
+                <ul class="nav">
+                    <li class="create-process-menu menu-item">
+                        <a href="#processes/create"><i class="icon-edit"></i> {{#_i18n}}Create New Process{{/_i18n}}</a>
+                    </li>
+                </ul>
+                {{/admin}}
+
+                <ul class="nav pull-right">
+                    {{#admin}}
+                    <li class="processes-menu menu-item">
+                        <a href="#processes">{{#_i18n}}List Processes{{/_i18n}}</a>
+                    </li>
+                    {{/admin}}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{{avatarUrl}}?s=22"/>
+                            {{name}} <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#profile/edit">{{#_i18n}}Edit Profile{{/_i18n}}</a></li>
+                            <li class="divider">
+                            <li><a href="#logout">{{#_i18n}}Logout{{/_i18n}}</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container alert-container">
+    <div class="span12">
+        <div class="alert alert-block fade in" style="display: none">
+        </div>
+    </div>
+</div>

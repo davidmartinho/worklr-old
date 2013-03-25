@@ -1,25 +1,22 @@
 package pt.ist.worklr.serializer;
 
-import java.lang.reflect.Type;
-
+import pt.ist.bennu.json.JsonBuilder;
+import pt.ist.bennu.json.JsonViewer;
 import pt.ist.worklr.domain.Recommendation;
+import pt.ist.worklr.utils.DefaultJsonAdapter;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
-public class RecommendationSerializer implements JsonSerializer<Recommendation> {
+@DefaultJsonAdapter(Recommendation.class)
+public class RecommendationSerializer implements JsonViewer<Recommendation> {
+
+    public static final String ORDER = "order";
 
     @Override
-    public JsonElement serialize(Recommendation recommendation, Type type, JsonSerializationContext ctx) {
-	JsonObject jsonObject = new JsonObject();
-
-	jsonObject.add("possibleSubjects", ctx.serialize(recommendation.getPossibleSubjects()));
-	jsonObject.add("inputDataObjectLabels", ctx.serialize(recommendation.getInputDataObjectLabels()));
-	jsonObject.add("creationDataObjectLabels", ctx.serialize(recommendation.getCreationDataObjectLabels()));
-	jsonObject.add("responseDataObjectLabels", ctx.serialize(recommendation.getResponseDataObjectLabels()));
-
-	return jsonObject;
+    public JsonElement view(Recommendation recommendation, JsonBuilder ctx) {
+        JsonObject jsonObject = ctx.view(recommendation.getRequestTemplate()).getAsJsonObject();
+        jsonObject.addProperty(ORDER, recommendation.getOrder());
+        return jsonObject;
     }
 }

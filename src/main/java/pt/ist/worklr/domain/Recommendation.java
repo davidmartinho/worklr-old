@@ -1,44 +1,65 @@
 package pt.ist.worklr.domain;
 
-import java.util.Set;
+public class Recommendation implements Comparable<Recommendation> {
 
-public class Recommendation {
+    public static final double W_INPUT = 0.2;
+    public static final double W_OUTPUT = 0.2;
+    public static final double W_REQUEST = 0.2;
+    public static final double W_PROCESS = 0.2;
+    public static final double W_INITIATOR = 0.2;
 
-    private final Set<String> possibleSubjects;
+    private final RequestTemplate requestTemplate;
 
-    private final Set<String> inputDataObjectLabels;
-    private final Set<String> creationDataObjectLabels;
-    private final Set<String> responseDataObjectLabels;
+    private final double goalMatch;
+    private final double requestFitness;
+    private final int support;
 
-    private final Set<String> queueExternalIds;
+    private int order;
 
-    public Recommendation(Set<String> possibleSubjects, Set<String> inputDataObjectLabel, Set<String> creationDataObjectLabel,
-	    Set<String> responseDataObjectLabel, Set<String> queueExternalIds) {
-	this.possibleSubjects = possibleSubjects;
-	this.inputDataObjectLabels = inputDataObjectLabel;
-	this.creationDataObjectLabels = creationDataObjectLabel;
-	this.responseDataObjectLabels = responseDataObjectLabel;
-	this.queueExternalIds = queueExternalIds;
+    public Recommendation(RequestTemplate requestTemplate, double goalMatch, double requestFitness, int support) {
+        this.requestTemplate = requestTemplate;
+        this.goalMatch = goalMatch;
+        this.requestFitness = requestFitness;
+        this.support = support;
+        this.order = 0;
     }
 
-    public Set<String> getPossibleSubjects() {
-	return possibleSubjects;
+    public RequestTemplate getRequestTemplate() {
+        return requestTemplate;
     }
 
-    public Set<String> getInputDataObjectLabels() {
-	return inputDataObjectLabels;
+    public double getGoalMatch() {
+        return goalMatch;
     }
 
-    public Set<String> getCreationDataObjectLabels() {
-	return creationDataObjectLabels;
+    public double getRequestFitness() {
+        return requestFitness;
     }
 
-    public Set<String> getResponseDataObjectLabels() {
-	return responseDataObjectLabels;
+    public double getSupport() {
+        return support;
     }
 
-    public Set<String> getQueueExternalIds() {
-	return queueExternalIds;
+    @Override
+    public int compareTo(Recommendation otherReq) {
+        double goalMatchDiff = getGoalMatch() - otherReq.getGoalMatch();
+        if (goalMatchDiff != 0) {
+            return goalMatchDiff > 0 ? 1 : -1;
+        } else {
+            double requestFitnessDiff = getRequestFitness() - otherReq.getRequestFitness();
+            if (requestFitnessDiff != 0) {
+                return requestFitnessDiff > 0 ? 1 : -1;
+            } else {
+                return (getSupport() - otherReq.getSupport()) > 0 ? 1 : -1;
+            }
+        }
     }
 
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public int getOrder() {
+        return order;
+    }
 }

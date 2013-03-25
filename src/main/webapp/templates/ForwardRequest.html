@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        &times;
+    </button>
+    <h3>{{#_i18n}}Forward Request{{/_i18n}}</h3>
+</div>
+<div class="modal-body">
+    <input type="text" id="demo-input-facebook-theme" class="input-block-level" name="queues" />
+    <br/>
+    <input type="text" class="input-block-level" placeholder="{{#_i18n}}Request Subject{{/_i18n}}" name="subject" />
+    <br/>
+    <textarea style="resize: none" rows="6" class="input-block-level" placeholder="{{#_i18n}}Description{{/_i18n}}" name="description"></textarea>
+    <br/>
+</div>
+<div class="modal-footer">
+    <button data-dismiss="modal" aria-hidden="true" class="btn">{{#_i18n}}Cancel{{/_i18n}}</button>
+    <button id="forward-request" class="btn btn-primary">{{#_i18n}}Forward{{/_i18n}}</button>
+</div>

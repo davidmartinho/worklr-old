@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="row">
+        <div class="span12">
+            <ul class="pull-right">
+                <button id="claim-request" class="btn btn-small btn-success">
+                    <i class="icon-ok"></i> {{#_i18n}}Claim Request{{/_i18n}}
+                </button>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <h3>{{subject}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            {{#commentaries}}
+            <div class="media">
+                <a class="pull-left" href="#"> <img class="media-object img-polaroid" src="{{author.avatarUrl}}?s=48"></a>
+                <div class="media-body">
+                    <b>{{author.name}}</b>
+                    <p>{{text}}</p>
+                </div>
+            </div>
+            {{/commentaries}}
+        </div>
+    </div>
+</div>

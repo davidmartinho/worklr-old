@@ -13,22 +13,25 @@ import pt.ist.fenixframework.pstm.Transaction;
 
 public class TransactionFilter implements Filter {
 
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
-
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-	    ServletException {
-	Transaction.begin();
-	try {
-	    chain.doFilter(request, response);
-	} catch (Exception e) {
-	    Transaction.abort();
-	    throw (ServletException) e;
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
 	}
-	Transaction.commit();
-    }
 
-    public void destroy() {
-    }
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+			ServletException {
+		try {
+			Transaction.begin(false);
+			chain.doFilter(request, response);
+		} catch (Exception e) {
+			Transaction.abort();
+			throw (ServletException) e;
+		}
+		Transaction.commit();
+	}
+
+	@Override
+	public void destroy() {
+	}
 
 }

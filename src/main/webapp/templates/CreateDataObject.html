@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        &times;
+    </button>
+    <h3>{{#_i18n}}Create Data Object{{/_i18n}}</h3>
+</div>
+<div class="modal-body">
+    <select name="type">
+        <option value="text">{{#_i18n}}Text{{/_i18n}}</option>
+        <option value="file">{{#_i18n}}File{{/_i18n}}</option>
+    </select>
+    <input type="text" class="input-block-level" placeholder="{{#_i18n}}Label{{/_i18n}}" name="label" />
+    <br/>
+    <input type="text" class="input-block-level" placeholder="{{#_i18n}}Value{{/_i18n}}" name="value" />
+</div>
+<div class="modal-footer">
+    <button data-dismiss="modal" aria-hidden="true" class="btn">{{#_i18n}}Cancel{{/_i18n}}</button>
+    <button id="create-data-object" class="btn btn-primary">{{#_i18n}}Create Data Object{{/_i18n}}</button>
+</div>

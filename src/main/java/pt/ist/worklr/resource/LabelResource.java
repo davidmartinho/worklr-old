@@ -20,27 +20,27 @@ public class LabelResource extends WorklrResource {
     @Path("process")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProcessLabels() {
-	getRequestAuthor();
-	Set<ProcessLabel> labelSet = Worklr.getInstance().getProcessLabelSet();
-	return Response.ok().entity(loadJsonStringForObject(labelSet)).build();
+        getRequestAuthor();
+        Set<ProcessLabel> labelSet = Worklr.getInstance().getProcessLabelSet();
+        return Response.ok(view(labelSet)).build();
     }
 
     @GET
     @Path("request")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRequestLabels() {
-	getRequestAuthor();
-	Set<RequestLabel> labelSet = Worklr.getInstance().getRequestLabelSet();
-	return Response.ok().entity(loadJsonStringForObject(labelSet)).build();
+        getRequestAuthor();
+        Set<RequestLabel> labelSet = Worklr.getInstance().getRequestLabelSet();
+        return Response.ok(view(labelSet)).build();
     }
 
     @GET
     @Path("dataobject")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDataObjectLabels() {
-	getRequestAuthor();
-	Set<DataObjectLabel> labelSet = Worklr.getInstance().getDataObjectLabelSet();
-	return Response.ok().entity(loadJsonStringForObject(labelSet)).build();
+        getRequestAuthor();
+        Set<DataObjectLabel> labelSet = Worklr.getInstance().getDataObjectLabelSet();
+        return Response.ok(view(labelSet)).build();
     }
 
 }

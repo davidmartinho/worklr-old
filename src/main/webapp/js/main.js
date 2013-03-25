@@ -1,94 +1,90 @@
-var AppRouter = Backbone.Router.extend({
+require([
+    'jquery',
+    'jquery.bootstrap',
+    'backbone',
+    'mustache',
+    'marionette',
+    'worklr',
+    'app',
+    'layouts/HeaderContentFooter',
+    'layouts/FolderList',
+    'i18n!nls/worklr'
+], function($, jQueryBootstrap, Backbone, Mustache, Marionette, Worklr, App, HeaderContentFooterLayout, FolderListLayout, i18n) {
 
-    routes: {
-    	""							: "showHome",
-        "home"                      : "showHome",
-		"login"         			: "login",
-		"processes/create"      	: "createProcess",
-		"processes"       			: "showProcesses",
-		"processes/:id"       		: "showProcess",
-		"profile/edit"          	: "editProfile",
-		"folders/:folderName"    	: "showFolder",
-		"requests/:requestId"    	: "showRequest",
-		"logout"                	: "logout",
-		"signup"                	: "signup"
-    },
+    $.ajaxSetup({
+        contentType: "application/json; charset=utf-8",
+        statusCode : {
+            401 : function() {
+                // Redirect the to the login page.
+                App.router.navigate("login", true);
+            },
+            403 : function() {
+                // 403 -- Access denied
+                App.router.navigate("login", true);
+            }
+        }
+    });
 
-    initialize: function () {
-    	console.log("Running initialize method...");
-    },
-    
-    showHome: function() {
-       	if(!localStorage["auth"]) {
-       		this.login();
-       	} else {
-       		console.log("Loading Home View");
-	        $('#app-wrapper').html(new HomeView().el);
-        }
-    },
-    
-    createProcess: function() {
-    	var process = new ProcessModel();
-        $('#content').html(new CreateProcessView({model: process}).el);
-    },
-    
-    showProcesses: function() {
-    	if(!this.processesView) {
-    		this.processesView = new ProcessesView();
-    	}
-    	$('#content').html(this.processesView.el);
-    },
-    
-    showProcess: function(id) {
-        var process = new ProcessModel({id: id});
-		process.fetch({
-			success: function() {
-            	$("#content").html(new ProcessView({model: process}).el);
+    Backbone.ajaxSync = Backbone.sync;
+
+    Backbone.customSync = function(method, model, option) {
+        option.beforeSend = function(jqXHR) {
+            if (localStorage.getItem("auth") != null) {
+                var auth = localStorage["auth"];
+                jqXHR.setRequestHeader('Authorization', 'Basic ' + auth);
             }
-        });
-    },
-    
-    editProfile: function() {
-    	var profile = new ProfileModel();
-		profile.fetch({
-			success: function() {
-            	$("#content").html(new EditProfileView({model: profile}).el);
-            }
-        });
-    },
-    
-    showFolder: function(folderName) {
-        this.showHome();
-    },
-    
-    showRequest: function(requestId) {
-		if (!this.requestView) {
-            this.requestView = new RequestView();
-        }
-        $('#content').html(this.requestView.el);
-    },
-    
-    login: function() {
-        if(!this.loginView) {
-            this.loginView = new LoginView();
-        }
-        $('#app-wrapper').html(this.loginView.el);
-    },
-    
-    signup: function() {
-        if(!this.signupView) {
-            this.signupView = new SignupView();
-        }
-        $('#content').html(this.signupView.el);
-    },
-    
-    logout: function() {
-		localStorage.removeItem("auth");
-        this.navigate("/", true);
+        };
+        return Backbone.ajaxSync(method, model, option);
     }
-});
 
-utils.loadTemplate([], function() {
-    app = new AppRouter();
-    Backbone.history.start();
+    Backbone.sync = Backbone.customSync;
+
+    Backbone.Marionette.Renderer.render = function(template, data) {
+        data['_abv'] = function() {
+            return function(val) {
+                var maxLength = 15;
+                var text = this[val];
+                if(text.length > maxLength) {
+                    return this[val].substring(0,maxLength)+"...";
+                }
+                return text;
+            }
+        };
+        data['_i18n'] = function() {
+            return function(val) {
+                return i18n[val];
+            }
+        }
+        data['_noti18n'] = function() {
+            return function(val) {
+                return i18n[data[val]];
+            }
+        }
+        return Mustache.to_html(template, data);
+    }
+
+    App.addRegions({
+        notification: "#notification",
+        page: "#page"
+    });
+
+
+    App.showNotification = function(title, message, type) {
+        require(['views/Notification'], function(NotificationView) {
+            App.notification.show(new NotificationView({ type: type, title: title, message: message }));
+        });
+    };
+
+    App.addInitializer(function() {
+        App.layouts = {};
+        require(['layouts/HeaderContentFooter', 'layouts/FolderList', 'router'], function(HeaderContentFooterLayout, FolderListLayout, Router) {
+            App.layouts.headerContentFooter = new HeaderContentFooterLayout();
+            App.layouts.folderList = new FolderListLayout();
+            App.router = new Router();
+            Backbone.history.start();
+        });
+    });
+
+    App.start();
+
 });

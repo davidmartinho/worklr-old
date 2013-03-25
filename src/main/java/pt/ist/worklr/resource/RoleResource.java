@@ -18,21 +18,20 @@ import pt.ist.worklr.domain.Worklr;
 @Path("/roles")
 public class RoleResource extends WorklrResource {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getRoles() {
-	getRequestAuthor();
-	Set<Role> roleSet = Worklr.getInstance().getRoleSet();
-	return Response.ok().entity(loadJsonStringForObject(roleSet)).build();
-    }
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getRoles() {
+		getRequestAuthor();
+		Set<Role> roleSet = Worklr.getInstance().getRoleSet();
+		return Response.ok().entity(view(roleSet)).build();
+	}
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createRole(@FormParam("roleName")
-    String roleName) {
-	getRequestAuthor();
-	Role role = Worklr.getInstance().createRole(roleName);
-	return Response.status(Status.CREATED).entity(loadJsonStringForObject(role)).build();
-    }
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createRole(@FormParam("roleName") String roleName) {
+		getRequestAuthor();
+		Role role = Worklr.getInstance().createRole(roleName);
+		return Response.status(Status.CREATED).entity(view(role)).build();
+	}
 }

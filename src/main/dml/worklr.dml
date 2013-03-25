@@ -16,19 +16,25 @@ class User {
     String email;
     String passwordHash;
     String salt;
-    String avatarUrl;
     boolean active;
     String activationKey;
+    boolean admin;
 }
 
 class Process {
+	String description;
 	DateTime creationTimestamp;
+	DateTime lastUpdateTimestamp;
+	DateTime completionTimestamp;
 }
 
 class Request {
+	String description;
     DateTime creationTimestamp;
     DateTime claimTimestamp;
     DateTime responseTimestamp;
+    DateTime cancelationTimestamp;
+    DateTime lastUpdateTimestamp;
 }
 
 class DataObject {
@@ -89,13 +95,23 @@ class RequestTemplate {
 	DateTime creationTimestamp;
 }
 
+relation WorklrHasProcessGoals {
+	Worklr playsRole worklr { multiplicity 1..1; }
+	ProcessGoal playsRole processGoal { multiplicity 0..*; }
+}
+
+relation WorklrHasRequestTemplates {
+	Worklr playsRole worklr { multiplicity 1..1; }
+	RequestTemplate playsRole requestTemplate { multiplicity 0..*; }
+}
+
 relation ProcessGoalHasDataObjectLabels {
-	ProcessGoal playsRole processGoal { multiplicity 1..*; }
-	ProcessLabel playsRole processLabel { multiplicity 1..*; }
+	ProcessGoal playsRole processGoal { multiplicity 0..*; }
+	DataObjectLabel playsRole dataObjectLabel { multiplicity 0..*; }
 }
 
 relation ProcessMayAttainProcessGoal {
-	ProcessGoal playsRole goal { multiplicity 0..1; }
+	ProcessGoal playsRole achievedGoal { multiplicity 0..1; }
 	Process playsRole process { multiplicity 0..*; }
 }
 
@@ -109,7 +125,7 @@ relation RequestTemplateHasRequestInstances {
 	Request playsRole request { multiplicity 0..*; }
 }
 
-relation ProcessTemaplateHasProcessGoal {
+relation ProcessTemplateHasProcessGoal {
 	ProcessTemplate playsRole processTemplate { multiplicity 0..*; }
 	ProcessGoal playsRole processGoal { multiplicity 1..1; }
 }
@@ -119,19 +135,39 @@ relation ProcessTemplateHasRequestTemplates {
 	RequestTemplate playsRole requestTemplate { multiplicity 0..*; }
 }
 
+relation RequestTemplateHasProcessDataObjectLabelsContext {
+	RequestTemplate playsRole requestTemplateProcessContext { multiplicity 0..*; }
+	DataObjectLabel playsRole processDataObjectLabelContext { multiplicity 0..*; }
+}
+
+relation RequestTemplateHasRequestDataObjectLabelsContext {
+	RequestTemplate playsRole requestTemplateRequestContext { multiplicity 0..*; }
+	DataObjectLabel playsRole requestDataObjectLabelContext { multiplicity 0..*; }
+}
+
 relation RequestTemplateHasInputDataObjectLabels {
 	RequestTemplate playsRole requestTemplateInputContext { multiplicity 0..*; }
-	RequestLabel playsRole inputDataObjectLabel { multiplicity 0..*; }
+	DataObjectLabel playsRole inputDataObjectLabel { multiplicity 0..*; }
 }
 
 relation RequestTemplateHasCreatedDataObjectLabels {
-	RequestTemplate playsRole requestTemplateCreationContext { multiplicity 0..1; }
-	RequestLabel playsRole createdDataObjectLabel { multiplicity 0..*; }
+	RequestTemplate playsRole requestTemplateCreationContext { multiplicity 0..*; }
+	DataObjectLabel playsRole createdDataObjectLabel { multiplicity 0..*; }
 }
 
 relation RequestTemplateHasResponseDataObjectLabels {
 	RequestTemplate playsRole requestTemplateResponseContext { multiplicity 0..*; }
-	RequestLabel playsRole responseDataObjectLabel { multiplicity 0..*; }
+	DataObjectLabel playsRole responseDataObjectLabel { multiplicity 0..*; }
+}
+
+relation RequestTemplateHasInitiatorRoleContext {
+	RequestTemplate playsRole requestTemplateInitiatorRoleContext { multiplicity 0..*; }
+	Role playsRole initiatorRoleContext { multiplicity 0..*; }
+}
+
+relation RequestTemplateHasExecutorQueueContext {
+	RequestTemplate playsRole requestTemplateExecutorQueueContext { multiplicity 0..*; }
+	Queue playsRole executorQueueContext { multiplicity 0..*; }
 }
 
 relation WorklrHasAuthTokens {
@@ -214,6 +250,11 @@ relation ProcessHasRequests {
     Request playsRole request { multiplicity 0..*; }
 }
 
+relation ProcessHasRootRequest {
+    Process playsRole { multiplicity 0..1; }
+    Request playsRole rootRequest { multiplicity 1..1; }
+}
+
 relation WorklrHasRequestLabels {
     Worklr playsRole worklr { multiplicity 1..1; }
     RequestLabel playsRole requestLabel { multiplicity 0..*; }
@@ -262,6 +303,11 @@ relation WorklrHasDataObjectLabels {
 relation RequestMayHaveSubRequests {
 	Request playsRole parentRequest { multiplicity 0..1; }
 	Request playsRole subRequest { multiplicity 0..*; }
+}
+
+relation RequestMayHaveForwardRequest {
+	Request playsRole previousRequest { multiplicity 0..1; }
+	Request playsRole forwardRequest { multiplicity 0..1; }
 }
 
 relation RequestMayHaveInputDataObjects {

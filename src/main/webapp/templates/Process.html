@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="span12">
+        <h3>{{title}}</h3>
+        {{description}}
+    </div>
+</div>
+
+<div class="row">
+    <div class="span12">
+        <h4>{{#_i18n}}Owner{{/_i18n}}</h4>
+        <ul class="thumbnails">
+            <li class="span1">
+                <a href="#users/{{initiator.id}}" data-toggle="tooltip" data-placement="bottom" data-original-title="{{initiator.name}}">
+                    <img class="img-polaroid" src="{{initiator.avatarUrl}}?s=64" title="{{initiator.name}}" alt="{{initiator.name}}" />
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span12">
+        <h4>{{#_i18n}}Participants{{/_i18n}}</h4>
+        <ul class="thumbnails">
+        {{#participants}}
+            <li class="span1">
+                <a href="#users/{{id}}" data-toggle="tooltip" data-placement="bottom" data-original-title="{{name}}">
+                    <img class="img-polaroid" src="{{avatarUrl}}?s=64" title="{{name}}" alt="{{name}}" />
+                </a>
+            </li>
+        {{/participants}}
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <h4>{{#_i18n}}Statistics{{/_i18n}}</h4>
+    <div class="span6">
+        <h3>{{#_i18n}}Number of Executing Requests{{/_i18n}}</h3>
+        <h4>{{numExecutingRequests}}</h4>
+    </div>
+    <div class="span6">
+        <h3>{{#_i18n}}Number of Completed Requests{{/_i18n}}</h3>
+        <h4>{{numCompletedRequests}}</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span6">
+        <h3>{{#_i18n}}Request Labels{{/_i18n}}</h3>
+        <div class="well">
+            {{#requestLabels}}
+            <span class="label label-inverse">{{.}}</span>
+            {{/requestLabels}}
+        </div>
+    </div>
+    <div class="span6">
+        <h3>{{#_i18n}}Data Labels{{/_i18n}}</h3>
+        <div class="well">
+            {{#dataLabels}}
+            <span class="label label-info">{{.}}</span>
+            {{/dataLabels}}
+        </div>
+    </div>
+</div>

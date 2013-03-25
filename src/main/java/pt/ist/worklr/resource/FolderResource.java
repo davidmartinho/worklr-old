@@ -18,26 +18,35 @@ public class FolderResource extends WorklrResource {
     @Path("inbox")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getInboxRequests() {
-	User author = getRequestAuthor();
-	Set<Request> inboxRequestSet = author.getInboxRequestSet();
-	return Response.ok().entity(loadJsonStringForObject(inboxRequestSet)).build();
+        User author = getRequestAuthor();
+        Set<Request> inboxRequestSet = author.getInboxRequestSet();
+        return Response.ok(view(inboxRequestSet)).build();
+    }
+
+    @GET
+    @Path("executing")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getExecutingRequests() {
+        User author = getRequestAuthor();
+        Set<Request> executingRequestSet = author.getExecutingRequestSet();
+        return Response.ok(view(executingRequestSet)).build();
     }
 
     @GET
     @Path("sent")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSentRequests() {
-	User author = getRequestAuthor();
-	Set<Request> sentRequestSet = author.getSentRequestSet();
-	return Response.ok().entity(loadJsonStringForObject(sentRequestSet)).build();
+        User author = getRequestAuthor();
+        Set<Request> sentRequestSet = author.getSentRequestSet();
+        return Response.ok(view(sentRequestSet)).build();
     }
 
     @GET
     @Path("completed")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCompletedRequests() {
-	User author = getRequestAuthor();
-	Set<Request> completedRequestSet = author.getCompletedRequestSet();
-	return Response.ok().entity(loadJsonStringForObject(completedRequestSet)).build();
+        User author = getRequestAuthor();
+        Set<Request> completedRequestSet = author.getCompletedRequestSet();
+        return Response.ok(view(completedRequestSet)).build();
     }
 }

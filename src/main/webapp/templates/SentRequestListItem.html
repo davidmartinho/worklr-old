@@ -1,0 +1,4 @@
+<td><a href="#requests/{{id}}">{{subject}}</a></td>
+<td style="text-align: center">{{#executor}}{{#completionTimestamp}}<span class="label label-success">{{#_i18n}}Complete{{/_i18n}}{{/completionTimestamp}}{{^completionTimestamp}}<span class="label label-success">{{#_i18n}}Executing{{/_i18n}}</span>{{/completionTimestamp}}{{/executor}}{{^executor}}<span class="label label-inverse">{{#_i18n}}Unclaimed{{/_i18n}}</span>{{/executor}}</td>
+<td style="text-align: center">{{#executor}}<a href="#users/{{executor.id}}">{{executor.name}}</a>{{/executor}}{{^executor}}{{#_i18n}}No one yet{{/_i18n}}{{/executor}}</td>
+<td style="text-align: center" class="timestamp">{{creationTimestamp}}</td>

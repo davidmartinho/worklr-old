@@ -15,26 +15,35 @@
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 
+		<version.commons.io.commons.io>2.4</version.commons.io.commons.io>
 		<version.com.google.code.gson.gson>2.1</version.com.google.code.gson.gson>
-		<version.com.sun.jersey.jersey.bundle>1.12</version.com.sun.jersey.jersey.bundle>
-		<version.com.sun.jersey.jersey.servlet>1.12</version.com.sun.jersey.jersey.servlet>
-		<version.com.sun.jersey.jersey.server>1.12</version.com.sun.jersey.jersey.server>
-		<version.com.sun.jersey.jersey.json>1.8</version.com.sun.jersey.jersey.json>
+		<version.com.google.guava.guava>14.0</version.com.google.guava.guava>
+		<version.com.sun.jersey.jersey.servlet>1.17.1</version.com.sun.jersey.jersey.servlet>
+		<version.com.sun.jersey.jersey.server>1.17.1</version.com.sun.jersey.jersey.server>
+		<version.com.sun.jersey.jersey.json>1.17.1</version.com.sun.jersey.jersey.json>
+		<version.com.sun.jersey.contribs.jersey.multipart>1.17.1</version.com.sun.jersey.contribs.jersey.multipart>
 		<version.javax.javaee.api>6.0</version.javax.javaee.api>
 		<version.javax.servlet.servlet.api>2.5</version.javax.servlet.servlet.api>
 		<version.org.json.json>20090211</version.org.json.json>
 		<version.javax.mail.mail>1.4.5</version.javax.mail.mail>
 
 		<version.org.slf4j.slf4j.api>1.6.6</version.org.slf4j.slf4j.api>
-		<version.ch.qos.logback.logback.core>1.0.9</version.ch.qos.logback.logback.core>
-		
+		<version.ch.qos.logback.logback.classic>1.0.9</version.ch.qos.logback.logback.classic>
+
 		<version.junit.junit>4.11</version.junit.junit>
 
 		<version.dml.dml.maven.plugin>1.1.2</version.dml.dml.maven.plugin>
 		<version.pt.ist.fenix.framework.core>1.1.4</version.pt.ist.fenix.framework.core>
+		<version.pt.ist.bennu.bennu.json>1.0-SNAPSHOT</version.pt.ist.bennu.bennu.json>
 	</properties>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>dml</groupId>
@@ -51,38 +60,27 @@
 			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.10</version>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>8.1.8.v20121106</version>
 				<configuration>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 					<stopKey>foo</stopKey>
 					<stopPort>9999</stopPort>
+					<encoding>UTF-8</encoding>
 				</configuration>
-				<executions>
-					<execution>
-						<id>start-jetty</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<scanIntervalSeconds>0</scanIntervalSeconds>
-							<daemon>true</daemon>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-jetty</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
+				<!--<dependencies> <dependency> <groupId>ch.qos.logback</groupId> <artifactId>logback-classic</artifactId> 
+					<version>${version.ch.qos.logback.logback.classic}</version> </dependency> 
+					</dependencies> -->
 			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${version.commons.io.commons.io}</version>
+		</dependency>
 		<dependency>
 			<groupId>pt.ist</groupId>
 			<artifactId>fenix-framework-core</artifactId>
@@ -114,9 +112,10 @@
 			<version>${version.javax.servlet.servlet.api}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-bundle</artifactId>
-			<version>${version.com.sun.jersey.jersey.bundle}</version>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>3.0.20100224</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -135,8 +134,23 @@
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>${version.ch.qos.logback.logback.core}</version>
+			<artifactId>logback-classic</artifactId>
+			<version>${version.ch.qos.logback.logback.classic}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${version.com.google.guava.guava}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>${version.com.sun.jersey.contribs.jersey.multipart}</version>
+		</dependency>
+		<dependency>
+			<groupId>pt.ist.bennu</groupId>
+			<artifactId>bennu-json</artifactId>
+			<version>${version.pt.ist.bennu.bennu.json}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

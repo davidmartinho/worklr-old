@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="span12">
+        <h4>{{#_i18n}}Sub-Requests{{/_i18n}}</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="span12">
+        <ul class="nav nav-tabs" data-tabs="tabs">
+            {{#request.pendingSubRequests}}
+            <li>
+                <a href="#tab-{{id}}" data-toggle="tab">{{#_abv}}subject{{/_abv}}</a>
+            </li>
+            {{/request.pendingSubRequests}}
+        </ul>
+        <div class="tab-content">
+            {{#request.pendingSubRequests}}
+            <div class="tab-pane fade in" id="tab-{{id}}">
+                <h4>{{subject}}</h4>
+                <div class="span8">
+                    {{#commentaries}}
+                    <div class="media">
+                        <a class="pull-left" href="#"> <img class="media-object img-polaroid" src="{{author.avatarUrl}}?s=48"></a>
+                        <div class="media-body">
+                            <b>{{author.name}}</b>
+                            <p>
+                                {{text}}
+                            </p>
+                        </div>
+                    </div>
+                    {{/commentaries}}
+                    <div class="media">
+                        <a class="pull-left" href="#"> <img class="media-object img-polaroid" src="{{initiator.avatarUrl}}?s=48"></a>
+                        <div class="media-body">
+                            <textarea rows="3"  id="comment-{{id}}" style="resize: none" class="input-block-level" name="commentary" placeholder="{{#_i18n}}Insert your comment here{{/_i18n}}"></textarea>
+                            <button id="post-comment" data-request-id="{{id}}" class="btn btn-primary pull-right">
+                                {{#_i18n}}Comment{{/_i18n}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="span3">
+                    <h4>{{#_i18n}}Data Objects{{/_i18n}}</h4>
+                    <form class="form-horizontal well" dropzone="true">
+                        {{#inputDataObjects}}
+                        <div class="dragstuff" draggable="true">
+                            <a class="data-label" href="#"><span id="{{id}}" data-type="{{^isFile}}string{{/isFile}}{{#isFile}}file{{/isFile}}" class="label label-info">{{label}}</span></a><br/>
+                        </div>
+                        {{/inputDataObjects}}
+                        {{#createdDataObjects}}
+                        <div class="dragstuff" draggable="true">
+                            <span id="{{id}} data-type="{{^isFile}}string{{/isFile}}{{#isFile}}file{{/isFile}}" class="label label-inverse">{{label}}</span><br/>
+                        </div>
+                        {{/createdDataObjects}}
+                    </form>
+                    <button  id="{{request.id}}" class="btn btn-mini btn-inverse create-data-object">
+                        {{#_i18n}}Add New Data Object{{/_i18n}}
+                    </button>
+                </div>
+            </div>
+            {{/request.pendingSubRequests}}
+        </div>
+    </div>
+</div>

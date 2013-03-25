@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="span12">
+        <h2>Pending Requests</h2>
+        <table class="table table-condensed table-bordered table-striped">
+            <thead>
+            <tr>
+                <th style="width: 30%">Subject</th>
+                <th style="width: 20%; text-align: center">Executor</th>
+                <th style="width: 20%; text-align: center">Creation</th>
+                <th style="width: 20%; text-align: center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#requests}}
+            <tr>
+                <td>{{subject}}</td>
+                <td style="text-align: center">{{#executor}}{{executor.name}}{{/executor}}{{^executor}}Not yet assigned{{/executor}}</td>
+                <td style="text-align: center" class="timestamp">{{creationTimestamp}}</td>
+                <td style="text-align: center">
+                    <button id="{{id}}" class="btn btn-mini btn-warn cancel-request-button" type="button">Cancel</button>
+                </td>
+            </tr>
+            {{/requests}}
+            {{^requests}}
+            <tr><td colspan="4" style="text-align: center; color: #CCC; font-size: 32px; padding: 20px; line-height: 42px">No pending requests were found.</td></tr>
+            {{/requests}}
+            </tbody>
+        </table>
+    </div>
+</div>

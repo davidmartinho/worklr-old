@@ -1,0 +1,19 @@
+package pt.ist.worklr.serializer;
+
+import pt.ist.bennu.json.JsonBuilder;
+import pt.ist.bennu.json.JsonViewer;
+import pt.ist.worklr.domain.DataObjectLabel;
+import pt.ist.worklr.utils.DefaultJsonAdapter;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+
+@DefaultJsonAdapter(DataObjectLabel.class)
+public class DataObjectLabelAdapter implements JsonViewer<DataObjectLabel> {
+
+    @Override
+    public JsonElement view(DataObjectLabel label, JsonBuilder ctx) {
+        return new JsonPrimitive(label.getValue());
+    }
+
+}

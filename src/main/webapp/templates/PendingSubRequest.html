@@ -1,0 +1,37 @@
+<div class="span12 well">
+    <div class="row">
+        <div class="span10">
+            <h3>{{subject}}</h3>
+        </div>
+        <div class="span2">
+            <button class="btn btn-danger pull-right cancel-sub-request">{{#_i18n}}Cancel{{/_i18n}}</button>
+        </div>
+    </div>
+    <hr class="divider" />
+    <div class="row">
+        <div class="span8">
+            {{#commentaries}}
+            <div class="media">
+                <a class="pull-left" href="#"> <img class="media-object img-polaroid" src="{{author.avatarUrl}}?s=48"></a>
+                <div class="media-body">
+                    <b>{{author.name}}</b>
+                    <i style="color: #AAA; padding-left: 13px; font-size: 10px" class="timestamp">{{timestamp}}</i>
+                    <p>
+                        {{text}}
+                    </p>
+                </div>
+            </div>
+            {{/commentaries}}
+        </div>
+        <div class="span4">
+            <h4 style="margin-top: 0px">{{#_i18n}}Data Objects{{/_i18n}}</h4>
+            <div class="well sub-request-data" dropzone="true">
+                {{#inputDataObjects}}
+                <span id="{{id}}" data-toggle="popover" data-placement="right" title="{{label}}" data-content="{{value}}" data-type="{{^isFile}}string{{/isFile}}{{#isFile}}file{{/isFile}}" class="label label-info data-object-label">{{label}}</span><br/>
+                {{/inputDataObjects}}
+            </div>
+        </div>
+
+        </div>
+    </div>
+</div>

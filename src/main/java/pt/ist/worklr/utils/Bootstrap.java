@@ -14,8 +14,9 @@ public class Bootstrap extends ServletContainer {
     private static final long serialVersionUID = 1L;
 
     static {
-	LOG.debug("Initializing Worklr...");
-	FenixFramework.initialize(PropertiesManager.getFenixFrameworkConfig());
+        LOG.debug("Initializing Worklr...");
+        FenixFramework.initialize(PropertiesManager.getFenixFrameworkConfig());
+            
     }
 
 }

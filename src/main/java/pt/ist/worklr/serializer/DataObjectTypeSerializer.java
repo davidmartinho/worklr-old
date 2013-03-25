@@ -1,19 +1,19 @@
 package pt.ist.worklr.serializer;
 
-import java.lang.reflect.Type;
-
+import pt.ist.bennu.json.JsonBuilder;
+import pt.ist.bennu.json.JsonViewer;
 import pt.ist.worklr.domain.DataObjectType;
+import pt.ist.worklr.utils.DefaultJsonAdapter;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
-public class DataObjectTypeSerializer implements JsonSerializer<DataObjectType> {
+@DefaultJsonAdapter(DataObjectType.class)
+public class DataObjectTypeSerializer implements JsonViewer<DataObjectType> {
 
     @Override
-    public JsonElement serialize(DataObjectType dataObjectType, Type type, JsonSerializationContext ctx) {
-	return new JsonPrimitive(dataObjectType.getType());
+    public JsonElement view(DataObjectType dataObjectType, JsonBuilder ctx) {
+        return new JsonPrimitive(dataObjectType.getType());
     }
 
 }
