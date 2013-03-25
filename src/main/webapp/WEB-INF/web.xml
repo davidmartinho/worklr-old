@@ -23,22 +23,36 @@
     </servlet-mapping>
 
     <filter>
-        <filter-name>transaction-filter</filter-name>
+        <filter-name>CharsetEncodingFilter</filter-name>
+        <filter-class>pt.ist.worklr.filter.CharsetEncodingFilter</filter-class>
+        <init-param>
+			<param-name>defaultCharset</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+    </filter>
+
+    <filter>
+        <filter-name>TransactionFilter</filter-name>
         <filter-class>pt.ist.worklr.filter.TransactionFilter</filter-class>
     </filter>
 
     <filter>
-        <filter-name>authentication-filter</filter-name>
+        <filter-name>AuthenticationFilter</filter-name>
         <filter-class>pt.ist.worklr.filter.AuthenticationFilter</filter-class>
     </filter>
 
     <filter-mapping>
-        <filter-name>transaction-filter</filter-name>
+        <filter-name>CharsetEncodingFilter</filter-name>
         <url-pattern>/api/*</url-pattern>
     </filter-mapping>
 
     <filter-mapping>
-        <filter-name>authentication-filter</filter-name>
+        <filter-name>TransactionFilter</filter-name>
+        <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/api/*</url-pattern>
     </filter-mapping>
 
